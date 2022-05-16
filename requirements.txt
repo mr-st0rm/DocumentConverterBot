@@ -1,0 +1,4 @@
+aiogram==2.20
+environs
+SQLAlchemy
+asyncpg

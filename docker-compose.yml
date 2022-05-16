@@ -1,0 +1,21 @@
+version: '3.3'
+
+services:
+  converter-bot:
+    build:
+      context: .
+    container_name: converter-bot
+    restart: on-failure
+    depends_on:
+      - postgres
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-change_me}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    restart: unless-stopped
