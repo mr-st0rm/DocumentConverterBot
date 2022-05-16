@@ -13,7 +13,7 @@ async def welcome_user(message: types.Message, session: AsyncSession):
                                      message.from_user.full_name)
     await message.answer(f"Привет, {message.from_user.full_name}\n"
                          f"Я могу конвертировать документа разных форматов.",
-                         reply_markup=await user_r_kb.bot_main_keyboard())
+                         reply_markup=user_r_kb.bot_main_keyboard())
 
 
 def register_start_handler(dp: Dispatcher):

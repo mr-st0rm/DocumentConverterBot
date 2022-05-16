@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-async def user_links() -> InlineKeyboardMarkup:
+def user_links() -> InlineKeyboardMarkup:
     links = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton("Чат", url="t.me/chat")],
         [InlineKeyboardButton("Информационный канал", url="t.me/channel")],

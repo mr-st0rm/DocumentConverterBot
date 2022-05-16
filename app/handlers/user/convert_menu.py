@@ -11,7 +11,7 @@ from app.states.user_states import ConverterMenu
 async def converter_menu(message: types.Message):
     """ Send user dialog inline keyboard with available document types """
     await message.answer("Выберите нужные документы для конвертации ( из - в )",
-                         reply_markup=await user_convert_kb.main_selecting_menu())
+                         reply_markup=user_convert_kb.main_selecting_menu())
     await ConverterMenu.choose_from_type.set()
 
 
@@ -21,7 +21,7 @@ async def back_to_main_menu(call: types.CallbackQuery, state: FSMContext):
     await call.message.delete()
     await call.message.answer(f"Привет, {call.from_user.full_name}\n"
                               f"Я могу конвертировать документа разных форматов.",
-                              reply_markup=await user_r_kb.bot_main_keyboard())
+                              reply_markup=user_r_kb.bot_main_keyboard())
 
 
 async def choose_from_document_type(call: types.CallbackQuery, state: FSMContext):
@@ -33,7 +33,7 @@ async def choose_from_document_type(call: types.CallbackQuery, state: FSMContext
         await call.answer("Вы уже выбрали этот тип", show_alert=True)
         return
 
-    await call.message.edit_reply_markup(reply_markup=await user_convert_kb.choose_from_type(user_choose_type))
+    await call.message.edit_reply_markup(reply_markup=user_convert_kb.choose_from_type(user_choose_type))
     await state.update_data(from_doc=user_choose_type)
 
 

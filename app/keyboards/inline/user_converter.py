@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-async def main_selecting_menu() -> InlineKeyboardMarkup:
+def main_selecting_menu() -> InlineKeyboardMarkup:
     """ The main keyboard for selecting the type of file conversion """
     items_kb = InlineKeyboardMarkup(
         inline_keyboard=[
@@ -22,7 +22,7 @@ async def main_selecting_menu() -> InlineKeyboardMarkup:
     return items_kb
 
 
-async def choose_from_type(user_select: str) -> InlineKeyboardMarkup:
+def choose_from_type(user_select: str) -> InlineKeyboardMarkup:
     """ Something like radio-buttons """
     chosen_kb = InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton("⚪️ Word (.docx)", callback_data="from_word"),

@@ -8,7 +8,7 @@ from app.keyboards.inline.user_inline import user_links
 async def info_links(message: types.Message):
     """ All links for users """
     await message.answer("Все нужные ссылки ты можешь найти ниже",
-                         reply_markup=await user_links())
+                         reply_markup=user_links())
 
 
 def register_links_handler(dp: Dispatcher):
