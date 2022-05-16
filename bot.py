@@ -8,6 +8,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
 from sqlalchemy.orm import sessionmaker
 
 from app.database.models import BaseModel
+from app.database import get_engine
 from app.middlerware import register_middlewares
 from app.config.cfg import BotData, DatabaseData
 from app.handlers.user import register_user_handlers
@@ -29,9 +30,7 @@ async def notify_admins(send_bot: Bot):
 
 async def init_models():
     """ Create all tables in database """
-    engine: sqlalchemy.engine.Engine = create_async_engine(
-        DatabaseData.database_url, encoding="utf-8", echo=False, future=True
-    )
+    engine: sqlalchemy.engine.Engine = get_engine()
     async with engine.begin() as conn:
         await conn.run_sync(BaseModel.metadata.create_all)
 
@@ -47,12 +46,8 @@ async def register_all_dependencies(dsp: Dispatcher, db_pool: sessionmaker):
 
 
 async def main(dsp: Dispatcher):
-    # Creating DB engine for PostgreSQL
-    engine: sqlalchemy.engine.Engine = create_async_engine(
-        DatabaseData.database_url, encoding="utf-8", echo=False, future=True
-    )
-
-    # Creating DB connections pool
+    # Get engine
+    engine = get_engine()
     db_pool = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
     await init_models()
