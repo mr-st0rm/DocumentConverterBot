@@ -6,6 +6,6 @@ from .database_sessions import DBMiddleware
 
 
 def register_middlewares(dp: Dispatcher, pool: sessionmaker):
-    dp.setup_middleware(ThrottlingMiddleware())
     dp.setup_middleware(DBMiddleware(pool))
+    dp.setup_middleware(ThrottlingMiddleware())
 
