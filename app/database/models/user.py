@@ -1,10 +1,10 @@
 import typing
 
 from sqlalchemy import Column, String, BigInteger, Boolean, DateTime
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
-from sqlalchemy.sql import func
 from sqlalchemy.engine import CursorResult
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.sql import func
 
 from app.database.models import BaseModel
 

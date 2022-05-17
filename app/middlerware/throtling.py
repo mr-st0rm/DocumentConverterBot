@@ -1,8 +1,8 @@
 import asyncio
 
+from aiogram import types, Dispatcher
 from aiogram.dispatcher.handler import CancelHandler, current_handler
 from aiogram.dispatcher.middlewares import BaseMiddleware
-from aiogram import types, Dispatcher
 from aiogram.utils.exceptions import Throttled
 
 

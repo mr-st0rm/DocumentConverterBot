@@ -1,21 +1,17 @@
+import asyncio
 import logging
 
 import sqlalchemy
 from aiogram import Dispatcher, Bot
-from aiogram import executor
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import sessionmaker
 
-from app.database.models import BaseModel
+from app.config.cfg import BotData
 from app.database import get_engine
-from app.middlerware import register_middlewares
-from app.config.cfg import BotData, DatabaseData
+from app.database.models import BaseModel
 from app.handlers.user import register_user_handlers
-
-
-bot = Bot(BotData.bot_token)
-dp = Dispatcher(bot, storage=MemoryStorage())
+from app.middlerware import register_middlewares
 
 
 async def notify_admins(send_bot: Bot):
@@ -40,20 +36,36 @@ async def register_all_dependencies(dsp: Dispatcher, db_pool: sessionmaker):
     register_middlewares(dsp, db_pool)
 
     # Register user handlers
-    register_user_handlers(dp)
+    register_user_handlers(dsp)
 
     # Register admin handlers
 
 
-async def main(dsp: Dispatcher):
+async def main():
+    bot = Bot(BotData.bot_token)
+    dp = Dispatcher(bot, storage=MemoryStorage())
+
     # Get engine
     engine = get_engine()
     db_pool = sessionmaker(engine, expire_on_commit=False, class_=AsyncSession)
 
+    # Create db tables
     await init_models()
-    await register_all_dependencies(dsp, db_pool)
+
+    await register_all_dependencies(dp, db_pool)
     await notify_admins(bot)
+
+    try:
+        await dp.start_polling()
+    finally:
+        await dp.storage.close()
+        await dp.storage.wait_closed()
+        bot_session = await bot.get_session()
+        await bot_session.close()
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp, on_startup=main)
+    try:
+        asyncio.run(main())
+    except (KeyboardInterrupt, SystemExit):
+        logging.error("Bot stopped!")

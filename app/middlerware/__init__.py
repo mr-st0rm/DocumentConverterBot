@@ -1,8 +1,8 @@
 from aiogram import Dispatcher
 from sqlalchemy.orm import sessionmaker
 
-from .throtling import ThrottlingMiddleware
 from .database_sessions import DBMiddleware
+from .throtling import ThrottlingMiddleware
 
 
 def register_middlewares(dp: Dispatcher, pool: sessionmaker):

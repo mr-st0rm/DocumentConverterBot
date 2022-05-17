@@ -1,5 +1,8 @@
 import logging
 
+
+logger = logging.getLogger(__name__)
+
 # noinspection PyArgumentList
 logging.basicConfig(
     # handlers=[logging.FileHandler('log.txt', 'w', 'utf-8')],

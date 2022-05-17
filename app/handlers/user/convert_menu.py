@@ -3,8 +3,8 @@ from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
 
-from app.keyboards.reply import user_reply as user_r_kb
 from app.keyboards.inline import user_converter as user_convert_kb
+from app.keyboards.reply import user_reply as user_r_kb
 from app.states.user_states import ConverterMenu
 
 

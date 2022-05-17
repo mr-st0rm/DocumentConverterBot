@@ -1,7 +1,7 @@
 import logging
 
-from sqlalchemy.ext.asyncio import AsyncSession
 from aiogram import Dispatcher, types
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.models import user as user_db_model
 

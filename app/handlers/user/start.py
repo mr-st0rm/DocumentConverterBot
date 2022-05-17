@@ -1,6 +1,5 @@
 from aiogram import Dispatcher
 from aiogram import types
-
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.models import user as user_model
