@@ -1,17 +1,19 @@
+import html
+
 from aiogram import Dispatcher
 from aiogram import types
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.database.models import user as user_model
 from app.keyboards.reply import user_reply as user_r_kb
+from app.messages.user import start_msgs
 
 
 async def welcome_user(message: types.Message, session: AsyncSession):
-    """ Wellcome and add user into database """
+    """ Wellcome and add register user """
     await user_model.registrate_user(session, message.from_user.id, message.from_user.username,
                                      message.from_user.full_name)
-    await message.answer(f"Привет, {message.from_user.full_name}\n"
-                         f"Я могу конвертировать документа разных форматов.",
+    await message.answer(start_msgs.welcome_user(html.escape(message.from_user.full_name)),
                          reply_markup=user_r_kb.bot_main_keyboard())
 
 
