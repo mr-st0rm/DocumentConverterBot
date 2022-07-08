@@ -53,3 +53,11 @@ def choose_from_type(user_select: str) -> InlineKeyboardMarkup:
             from_button.text = from_button.text.replace("⚪️", "🔘")
 
     return chosen_kb
+
+
+def cancel_converting() -> InlineKeyboardMarkup:
+    res = InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton("🚫 Отмена", callback_data="main_menu")]
+    ])
+
+    return res

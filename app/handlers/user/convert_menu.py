@@ -1,3 +1,5 @@
+from typing import Callable
+
 from aiogram import Dispatcher
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -5,8 +7,10 @@ from aiogram.dispatcher.filters import Text
 
 from app.keyboards.inline import user_converter as user_convert_kb
 from app.keyboards.reply import user_reply as user_r_kb
-from app.states.user_states import ConverterMenu
+from app.states.user_states import ConverterMenu, SendDocs
 from app.messages.user import converter_msgs, start_msgs
+
+from app.handlers import switch_convert_msg
 
 
 async def converter_menu(message: types.Message):
@@ -50,8 +54,16 @@ async def choose_to_document_type(call: types.CallbackQuery, state: FSMContext):
         return
 
     await state.update_data(to_doc=call.data)
-    await call.message.edit_text(text=str(await state.get_data()))
-    await state.finish()
+    msg = switch_convert_msg(user_state_data.get('from_doc'))()
+
+    if msg:
+        await call.message.edit_text(text=msg,
+                                     reply_markup=user_convert_kb.cancel_converting())
+        await SendDocs.send_file.set()
+    else:
+        await call.message.edit_text(converter_msgs.convert_from_type_error())
+        await state.finish()
+        return
 
 
 def register_converter_handlers(dp: Dispatcher):
